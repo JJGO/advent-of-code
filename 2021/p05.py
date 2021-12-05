@@ -47,6 +47,17 @@ def overlap_np(points, part="a"):
     return (board > 1).sum()
 
 
+# Numpy counts variant
+def overlap_npc(points, part='a'):
+    points = np.array(points).reshape((len(points), 2, 2))
+    allpoints = np.vstack([
+        p[0] + np.outer(np.arange(1+p.ptp(0).max()), np.sign(p[1]-p[0]))
+        for p in points if p.ptp(0).min() == 0 or part == 'b'
+    ])
+    _, counts = np.unique(allpoints, axis=0, return_counts=True)
+    return (counts > 1).sum()
+
+
 sample = parses(
     """0,9 -> 5,9
 8,0 -> 0,8
@@ -66,7 +77,7 @@ if __name__ == "__main__":
 
     puzzle = Puzzle(year=2021, day=5)
     data = parses(puzzle.input_data)
-    for fn in (overlap, overlap_np):
+    for fn in (overlap, overlap_np, overlap_npc):
         assert fn(sample, "a") == 5
         puzzle.answer_a = fn(data, "a")
         assert fn(sample, "b") == 12
