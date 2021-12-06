@@ -7,12 +7,13 @@ def parses(input):
 
 
 def simulate(data, days):
-    population = dict(Counter(data))
+    counts = Counter(data)
+    population = [counts.get(i, 0) for i in range(9)]
     for i in range(days):
-        population = {k - 1: v for k, v in population.items()}
-        population[8] = population.get(8, 0) + population.get(-1, 0)
-        population[6] = population.get(6, 0) + population.pop(-1, 0)
-    return sum(population.values())
+        n = population.pop(0)
+        population.append(n)
+        population[6] += n
+    return sum(population)
 
 
 def fast_simulate(data, days):
