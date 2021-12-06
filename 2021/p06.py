@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, deque
 from sympy import zeros, eye
 
 
@@ -8,11 +8,10 @@ def parses(input):
 
 def simulate(data, days):
     counts = Counter(data)
-    population = [counts.get(i, 0) for i in range(9)]
+    population = deque([counts.get(i,0) for i in range(9)])
     for i in range(days):
-        n = population.pop(0)
-        population.append(n)
-        population[6] += n
+        population.rotate(-1)
+        population[6] += population[-1]
     return sum(population)
 
 
