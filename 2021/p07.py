@@ -1,5 +1,4 @@
-from collections import Counter, deque
-import itertools
+import math
 import numpy as np
 
 
@@ -15,11 +14,11 @@ def bruteA(nums):
 def bruteB(nums):
     nums = np.array(nums)
 
-    def cost(d):
-        d = abs(d)
+    def cost(n):
+        d = abs(nums - n)
         return (d * (d + 1) // 2).sum()
 
-    return min(cost(nums-i) for i in range(nums.min(), nums.max() + 1))
+    return min(cost(i) for i in range(nums.min(), nums.max() + 1))
 
 
 def partA(nums):
@@ -38,15 +37,8 @@ def partB(nums):
         d = abs(nums - n)
         return (d * (d + 1) // 2).sum()
 
-    mean = round(nums.mean())
-    med = np.median(nums)
-    s = int(np.sign(mean - med))
-    min_cost = cost(mean)
-    for i in itertools.count(1):
-        prev_cost = min_cost
-        min_cost = min(min_cost, cost(mean - i * s))
-        if prev_cost == min_cost:
-            return min_cost
+    mean = nums.mean()
+    return min(cost(math.floor(mean)), cost(math.ceil(mean)))
 
 
 sample = parses("16,1,2,0,4,2,7,1,2,14")
