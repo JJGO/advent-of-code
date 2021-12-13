@@ -1,10 +1,9 @@
+import parse
+
+
 def parses(input):
-    coords, instructions = input.strip().split("\n\n")
-    coords = [tuple(map(int, line.split(","))) for line in coords.split("\n")]
-    instructions = [
-        tuple(line.split()[-1].split("=")) for line in instructions.split("\n")
-    ]
-    instructions = [(dim, int(v)) for dim, v in instructions]
+    coords = [tuple(x) for x in parse.findall("{:d},{:d}", input)]
+    instructions = [tuple(x) for x in parse.findall("{:l}={:d}", input)]
     return coords, instructions
 
 
