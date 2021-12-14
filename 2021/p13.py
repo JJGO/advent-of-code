@@ -12,8 +12,6 @@ def fold(coords, instructions):
     for dim, fold in instructions:
         d = "xy".index(dim)
         for point in list(coords):
-            if point[d] == fold:
-                coords.remove(point)
             if point[d] > fold:
                 coords.remove(point)
                 coords.add(
