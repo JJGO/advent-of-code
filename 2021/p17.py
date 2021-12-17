@@ -1,17 +1,9 @@
-import math
 import parse
 import itertools
 
 
 def parses(text):
     return tuple([i.fixed[0] for i in parse.findall("{:d}", text)])
-
-
-def triangular_in_interval(low, high):
-    # Solve for (x*(x+1))/2 = triangular
-    a = math.ceil((-1 + math.sqrt(1 + 8 * low)) / 2)
-    b = math.floor((-1 + math.sqrt(1 + 8 * high)) / 2)
-    return a == b
 
 
 def sign(x):
@@ -26,11 +18,10 @@ def sign(x):
 def valid_velocities(bounds):
     left, right, bottom, top = bounds
     vxs = range(1, right + 1)
-    vys = range(10 * (top - bottom), bottom - 1, -1)
-    ways = 0
+    vys = range(abs(bottom), bottom - 1, -1)
     for vx, vy in itertools.product(vxs, vys):
         x, y = 0, 0
-        # init = (vx, vy)
+        init = (vx, vy)
         local_maxy = 0
         while not ((x < left and vx == 0) or (x > right and vx > 0) or (y < bottom)):
             x = x + vx
@@ -39,18 +30,19 @@ def valid_velocities(bounds):
             vy -= 1
             local_maxy = max(local_maxy, y)
             if left <= x <= right and bottom <= y <= top:
-                yield local_maxy
+                yield (init, local_maxy)
                 break
-    return ways
 
-
+# There's a heuristic of assuming that the process ends with
+# vx = 0 and vy = bottom, so initial_vy = -bottom and
+# max_height = (bottom)*(bottom+1)/2 due to the triangular sum
+#
+# However, while that heuristic works for the sample input,
+# it requires some conditions to be met.
+# For the heuristic to work, the [left, right] interval must
+# contain a triangular number, otherwise we cannot reach vx=0,
+# but a valid solution can still exist e.g. f(42,42,-10,-1) = 3
 def solve_a(bounds):
-    left, right, bottom, _ = bounds
-    if triangular_in_interval(left, right):
-        # If we have a triangular number in ther interval
-        # solution has clean close form
-        y = 0 - bottom
-        return y * (y - 1) // 2
     return next(valid_velocities(bounds))
 
 
