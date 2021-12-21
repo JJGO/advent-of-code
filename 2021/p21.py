@@ -1,4 +1,5 @@
 import itertools
+import functools
 from collections import Counter, defaultdict
 import parse
 
@@ -61,6 +62,28 @@ def solve_b(data):
     return max(total1, total2)
 
 
+def recursive_solve_b(data):
+    # alternative slower recursive solution that might be easier to grok
+
+    @functools.lru_cache(maxsize=None)
+    def count_wins(p1, p2, sc1, sc2):
+        # Player 1 is at position p1 with score sc1 and Player 2 is at position p2 with sc2
+        # It's player 1 turn. Return the number of universes in which each player wins
+        wins1, wins2 = 0, 0
+        for step in map(sum, itertools.product((1, 2, 3), repeat=3)):
+            new_p1 = (p1 + step - 1) % 10 + 1
+            new_sc1 = sc1 + new_p1
+            if new_sc1 >= 21:
+                wins1 += 1
+            else:
+                w2, w1 = count_wins(p2, new_p1, sc2, new_sc1)
+                wins1 += w1
+                wins2 += w2
+        return wins1, wins2
+
+    return max(count_wins(*data, 0, 0))
+
+
 sample = parses(
     """Player 1 starting position: 4
 Player 2 starting position: 8"""
@@ -77,4 +100,5 @@ if __name__ == "__main__":
     puzzle.answer_a = solve_a(data)
 
     assert solve_b(sample) == 444356092776315
+    assert recursive_solve_b(sample) == 444356092776315
     puzzle.answer_b = solve_b(data)
