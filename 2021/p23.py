@@ -1,9 +1,10 @@
-# Solution is Dijsktra in the implicit game graph using energy to order solutions
+# Solution is Dijsktra (or preferably A*) in the implicit game graph using energy to order solutions
 
 from collections import defaultdict
 from dataclasses import dataclass
+from functools import cached_property
+from heapq import heappop, heappush
 from typing import Dict, Tuple
-import copy
 
 
 def sign(x):
@@ -22,16 +23,9 @@ class State:
     maxy: int = 3
 
     HALLWAY = set([(1, 1), (2, 1), (4, 1), (6, 1), (8, 1), (10, 1), (11, 1)])
-
-    @property
-    def remaining(self):
-        return sum(y - 1 for _, y in self.final.values())
-
-    def __lt__(self, other):
-        return (self.energy, self.remaining) < (other.energy, other.remaining)
+    ENERGIES = {"A": 1, "B": 10, "C": 100, "D": 1000}
 
     def check_collisions(self, start, end):
-        energies = {"A": 1, "B": 10, "C": 100, "D": 1000}
         c = self.positions[start]
         x, y = start
         x2, y2 = end
@@ -41,41 +35,39 @@ class State:
             y -= 1
             if (x, y) in self.positions:
                 return None
-            e += energies[c]
+            e += self.ENERGIES[c]
         # Move along the hallway (if needed)
         while x != x2:
             x += sign(x2 - x)
             if (x, y) in self.positions:
                 return None
-            e += energies[c]
+            e += self.ENERGIES[c]
         # Move into the Room (if needed)
         while y != y2:
             y += sign(y2 - y)
             if (x, y) in self.positions:
                 return None
-            e += energies[c]
+            e += self.ENERGIES[c]
         return e
 
     def move(self, start, end):
         if end in self.positions:
             return None
         if energy := self.check_collisions(start, end):
-            new_state = copy.deepcopy(self)
-            new_state.energy += energy
-            new_state.positions[end] = new_state.positions.pop(start)
+            new_positions = self.positions.copy()
+            new_final = self.final.copy()
+            new_energy = self.energy + energy
+            new_positions[end] = new_positions.pop(start)
             # clean if moved into final room
             c = self.positions[start]
             if end == self.final[c]:
-                new_state.positions.pop(end)
-                x, y = new_state.final[c]
+                new_positions.pop(end)
+                x, y = new_final[c]
                 if y == 2:
-                    new_state.final.pop(c)
+                    new_final.pop(c)
                 else:
-                    new_state.final[c] = (x, y - 1)
-            return new_state
-
-    def done(self):
-        return len(self.final) == 0
+                    new_final[c] = (x, y - 1)
+            return State(new_positions, new_final, new_energy, self.maxy)
 
     def all_moves(self, pos):
         c = self.positions[pos]
@@ -95,15 +87,17 @@ class State:
 
     def check_initial(self):
         # Move from initial to final positions that already correct
+        new_positions = self.positions.copy()
+        new_final = self.final.copy()
         for k in range(self.maxy, 1, -1):
-            for c, (x, y) in list(self.final.items()):
-                if y == k and self.positions.get((x, y), None) == c:
-                    self.positions.pop((x, y))
+            for c, (x, y) in list(new_final.items()):
+                if y == k and new_positions.get((x, y), None) == c:
+                    new_positions.pop((x, y))
                     if k == 2:
-                        self.final.pop(c)
+                        new_final.pop(c)
                     else:
-                        self.final[c] = (x, k - 1)
-        return self
+                        new_final[c] = (x, k - 1)
+        return State(new_positions, new_final, self.energy, self.maxy)
 
     @staticmethod
     def fromstr(diagram):
@@ -117,13 +111,44 @@ class State:
         final = {c: (3 + 2 * i, maxy) for i, c in enumerate("ABCD")}
         return State(initial, final, maxy=maxy).check_initial()
 
-    def __hash__(self):
+    @cached_property
+    def hash(self):
         return hash(tuple([(x, y, c) for (x, y), c in self.positions.items()]))
+
+    def __hash__(self):
+        return self.hash
 
     def __eq__(self, other):
         # Energy is not part of positions, otherwise we'd memoize with energy as well
         # final can be derived from positions
-        return hash(self) == hash(other)
+        return self.hash == other.hash
+
+    def done(self):
+        return len(self.final) == 0
+
+    def remaining(self):
+        return sum(y - 1 for _, y in self.final.values())
+
+    def lower_bound_completion(self):
+        final = self.final.copy()
+        energy_lb = 0
+        for (x, y), c in self.positions.items():
+            x2, y2 = final[c]
+            movement = abs(y - 1) + abs(y2 - 1) + abs(x - x2)
+            energy_lb += movement * self.ENERGIES[c]
+            final[c] = (x2, y2 - 1)
+        return energy_lb
+
+    @cached_property
+    def cost(self):
+        return (
+            self.energy + self.lower_bound_completion(),
+            self.energy,
+            self.remaining(),
+        )
+
+    def __lt__(self, other):
+        return self.cost < other.cost
 
     def render(self):
         s = ""
@@ -144,8 +169,6 @@ class State:
 
 
 def solve_a(data):
-    from heapq import heappop, heappush
-
     heap = [State.fromstr(data)]
     visited = defaultdict(lambda: float("inf"))
     while heap:
