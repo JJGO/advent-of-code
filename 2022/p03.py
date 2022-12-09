@@ -7,13 +7,13 @@ def points(char):
 
 def solve_a(data):
     data = [(line[: len(line) // 2], line[len(line) // 2 :]) for line in data]
-    chars = [next(iter(set(a) & set(b))) for a, b in data]
+    chars = [(set(a) & set(b)).pop() for a, b in data]
     return sum(points(c) for c in chars)
 
 
 def solve_b(data):
     chars = [
-        next(iter(set(a) & set(b) & set(c)))
+        (set(a) & set(b) & set(c)).pop()
         for a, b, c in zip(data[::3], data[1::3], data[2::3])
     ]
     return sum(points(c) for c in chars)

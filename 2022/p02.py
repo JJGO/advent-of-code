@@ -7,7 +7,8 @@ def parses(input):
 
 # 0:Rock, 1:Paper, 2:Scissors
 def as_ints(data):
-    return [(ord(x) - ord("A"), ord(y) - ord("X")) for x, y in data]
+    d = {"A": 0, "B": 1, "C": 2, "X": 0, "Y": 1, "Z": 2}
+    return [(d[x], d[y]) for x, y in data]
 
 
 def solve_a(data):
@@ -28,16 +29,38 @@ def solve_b(data):
     )
 
 
-sample = parses("""A Y
+# Due to the base 3 logic, each combination has an unique number of points
+# otherwise we could still do it with a dict, but this is more succint
+def lookup_solve_a(data):
+    scores = ["", "BX", "CY", "AZ", "AX", "BY", "CZ", "CX", "AY", "BZ"]
+    scores = list(map(tuple, scores))
+    return sum(scores.index(pair) for pair in data)
+
+
+def lookup_solve_b(data):
+    scores = ["", "BX", "CX", "AX", "AY", "BY", "CY", "CZ", "AZ", "BZ"]
+    scores = list(map(tuple, scores))
+    return sum(scores.index(pair) for pair in data)
+
+
+sample = parses(
+    """A Y
 B X
-C Z""")
+C Z"""
+)
 
 if __name__ == "__main__":
     from aocd.models import Puzzle
 
     puzzle = Puzzle(year=2022, day=2)
     data = parses(puzzle.input_data)
+
     assert solve_a(sample) == 15
     puzzle.answer_a = solve_a(data)
-    assert solve_b(sample) == 12 
+    assert solve_b(sample) == 12
     puzzle.answer_b = solve_b(data)
+
+    assert lookup_solve_a(sample) == 15
+    puzzle.answer_a = lookup_solve_a(data)
+    assert lookup_solve_b(sample) == 12
+    puzzle.answer_b = lookup_solve_b(data)
