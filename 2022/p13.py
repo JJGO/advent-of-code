@@ -1,5 +1,4 @@
 import json
-import functools
 
 
 def parses(input):
@@ -34,6 +33,15 @@ def solve_a(data):
 
 
 def solve_b(data):
+    data = [val for pair in data for val in pair]
+    # no need to sort, just count the number of elements less than
+    a = 1 + sum(-1 == compare(i, [[2]]) for i in data)  # 1+ for offset
+    b = 2 + sum(-1 == compare(i, [[6]]) for i in data)  # 2+ because [[2]] < [[6]]
+    return a * b
+
+def solve_b2(data):
+    import functools
+
     data = [val for pair in data for val in pair] + [[[2]], [[6]]]
     sorted_ = sorted(data, key=functools.cmp_to_key(compare))
     # Another alternative is to create a custom class that
@@ -42,8 +50,24 @@ def solve_b(data):
     b = sorted_.index([[6]]) + 1
     return a * b
 
+def solve_b3(data):
+    data = [ val for pair in data for val in pair ] + [[[2]], [[6]]]
+    # Another alternative is to create a custom class that 
+    # only defines __lt__ using compare(self, other) == -1
+    class Key:
+        def __init__(self, vals):
+            self.vals = vals
+        def __lt__(self, other):
+            return compare(self.vals, other.vals) == -1
+    sorted_ = [x.vals for x in sorted([Key(i) for i in data])]
+    a = sorted_.index([[2]]) + 1
+    b = sorted_.index([[6]]) + 1
+    return a * b
 
-sample = parses("""[1,1,3,1,1]
+
+
+sample = parses(
+    """[1,1,3,1,1]
 [1,1,5,1,1]
 
 [[1],[2,3,4]]
@@ -65,7 +89,8 @@ sample = parses("""[1,1,3,1,1]
 [[]]
 
 [1,[2,[3,[4,[5,6,7]]]],8,9]
-[1,[2,[3,[4,[5,6,0]]]],8,9]""")
+[1,[2,[3,[4,[5,6,0]]]],8,9]"""
+)
 
 if __name__ == "__main__":
     from aocd.models import Puzzle
