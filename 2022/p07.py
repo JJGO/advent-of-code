@@ -28,40 +28,31 @@ def parses(input):
     return hierarchy
 
 
-def solve_a(data):
-    def small_dirs(root):
-        total_size = 0
-        small_size = 0
-        for file, content in root.items():
-            if isinstance(content, int):
-                total_size += content
-            elif isinstance(content, dict):
-                sub_size, sub_small = small_dirs(content)
-                total_size += sub_size
-                small_size += sub_small
-        small_size += total_size * (total_size < 100_000)
-        return total_size, small_size
+def sizes(root):
+    all_sizes = []
 
-    return small_dirs(data)[1]
+    def _helper(node):
+        size = 0
+        for file, content in node.items():
+            if isinstance(content, int):
+                size += content
+            elif isinstance(content, dict):
+                size += _helper(content)
+        all_sizes.append(size)
+        return size
+
+    _helper(root)
+    return all_sizes
+
+
+def solve_a(data):
+    return sum(s for s in sizes(data) if s <= 100_000)
 
 
 def solve_b(data):
-    sizes = []
-
-    def compute_size(root):
-        total_size = 0
-        for file, content in root.items():
-            if isinstance(content, int):
-                total_size += content
-            elif isinstance(content, dict):
-                total_size += compute_size(content)
-        sizes.append(total_size)
-        return total_size
-
-    total_size = compute_size(data)
-    current_free = 70000000 - total_size
-    min_free = 30000000 - current_free
-    return sorted(i for i in sizes if i >= min_free)[0]
+    sizes_ = sizes(data)
+    current_free = 70000000 - sizes_[-1]
+    return min(s for s in sizes_ if (current_free + s) >= 30000000)
 
 
 sample = parses(

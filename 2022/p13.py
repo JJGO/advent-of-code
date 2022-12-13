@@ -12,12 +12,7 @@ def parses(input):
 def compare(a, b):
     # -1: a < b ,  0: a == b , 1: a > b
     if isinstance(a, int) and isinstance(b, int):
-        if a < b:
-            return -1
-        elif a > b:
-            return 1
-        else:
-            return 0
+        return (a > b) - (a < b)
     if isinstance(a, int):
         a = [a]
     if isinstance(b, int):
@@ -39,6 +34,7 @@ def solve_b(data):
     b = 2 + sum(-1 == compare(i, [[6]]) for i in data)  # 2+ because [[2]] < [[6]]
     return a * b
 
+
 def solve_b2(data):
     import functools
 
@@ -50,20 +46,22 @@ def solve_b2(data):
     b = sorted_.index([[6]]) + 1
     return a * b
 
+
 def solve_b3(data):
-    data = [ val for pair in data for val in pair ] + [[[2]], [[6]]]
-    # Another alternative is to create a custom class that 
+    data = [val for pair in data for val in pair] + [[[2]], [[6]]]
+    # Another alternative is to create a custom class that
     # only defines __lt__ using compare(self, other) == -1
     class Key:
         def __init__(self, vals):
             self.vals = vals
+
         def __lt__(self, other):
             return compare(self.vals, other.vals) == -1
+
     sorted_ = [x.vals for x in sorted([Key(i) for i in data])]
     a = sorted_.index([[2]]) + 1
     b = sorted_.index([[6]]) + 1
     return a * b
-
 
 
 sample = parses(
