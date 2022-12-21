@@ -64,7 +64,7 @@ def solve_a(data):
 # the work and state space. We let player 1 do a full pass and whenever
 # it decides to stop, instead we now run the elephant just of the
 # remaining open valves
-def solve_b(data):
+def solve_b_dp(data):
     functioning_valves, distances, rates = preprocess(data)
 
     @functools.lru_cache(maxsize=None)
@@ -94,7 +94,7 @@ def solve_b(data):
 # intersect disjoint states efficiently. The DP keeps track of a dict(state:pressure)
 # instead of a single value. Finally, we sort states by value to skip lots of
 # low pressure combinations
-def solve_b(data):
+def solve_b_combinations(data):
     functioning_valves, distances, rates = preprocess(data)
 
     @functools.lru_cache(maxsize=None)
@@ -148,5 +148,6 @@ if __name__ == "__main__":
     data = parses(puzzle.input_data)
     assert solve_a(sample) == 1651
     puzzle.answer_a = solve_a(data)
-    assert solve_b(sample) == 1707
-    puzzle.answer_b = solve_b(data)
+    for solve_b in (solve_b_dp, solve_b_combinations):
+        assert solve_b(sample) == 1707
+        puzzle.answer_b = solve_b(data)

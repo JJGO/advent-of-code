@@ -159,5 +159,6 @@ if __name__ == "__main__":
     data = parses(puzzle.input_data)
     assert solve_a(sample, 10) == 26
     puzzle.answer_a = solve_a(data)
-    assert solve_b_smart(sample, 20) == 56000011
-    puzzle.answer_b = solve_b_smart(data)
+    for solve_b in (solve_b_smart, solve_b_smt, solve_b_perimeter, solve_b_interval):
+        assert solve_b(sample, 20) == 56000011
+        puzzle.answer_b = solve_b(data)

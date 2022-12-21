@@ -27,7 +27,7 @@ def solve_a(data):
     return sum(i for i, s in enumerate(data, start=1) if compare(*s) == -1)
 
 
-def solve_b(data):
+def solve_b_nosort(data):
     data = [val for pair in data for val in pair]
     # no need to sort, just count the number of elements less than
     a = 1 + sum(-1 == compare(i, [[2]]) for i in data)  # 1+ for offset
@@ -35,19 +35,18 @@ def solve_b(data):
     return a * b
 
 
-def solve_b2(data):
+def solve_b_cmp(data):
     import functools
 
+    # use functools.cmp_to_key to do cmp based sorting
     data = [val for pair in data for val in pair] + [[[2]], [[6]]]
     sorted_ = sorted(data, key=functools.cmp_to_key(compare))
-    # Another alternative is to create a custom class that
-    # only defines __lt__ using compare(self, other) == -1
     a = sorted_.index([[2]]) + 1
     b = sorted_.index([[6]]) + 1
     return a * b
 
 
-def solve_b3(data):
+def solve_b_cls(data):
     data = [val for pair in data for val in pair] + [[[2]], [[6]]]
     # Another alternative is to create a custom class that
     # only defines __lt__ using compare(self, other) == -1
@@ -97,5 +96,6 @@ if __name__ == "__main__":
     data = parses(puzzle.input_data)
     assert solve_a(sample) == 13
     puzzle.answer_a = solve_a(data)
-    assert solve_b(sample) == 140
-    puzzle.answer_b = solve_b(data)
+    for solve_b in (solve_b_nosort, solve_b_cmp, solve_b_cls):
+        assert solve_b(sample) == 140
+        puzzle.answer_b = solve_b(data)
