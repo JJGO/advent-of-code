@@ -29,7 +29,7 @@ def eval_expression(data):
         "-": operator.sub,
         "*": operator.mul,
         "/": operator.truediv,
-        "=": operator.eq,
+        "_": lambda *x: x,
     }
 
     @functools.lru_cache(maxsize=None)
@@ -43,6 +43,14 @@ def eval_expression(data):
     return memoize("root")
 
 
+def eval_partb(data, humn):
+    data = data.copy()
+    data["humn"] = humn
+    a, _, b = data["root"]
+    data["root"] = a, "_", b
+    return eval_expression(data)
+
+
 def solve_a(data):
     return int(eval_expression(data))
 
@@ -52,13 +60,10 @@ def solve_a(data):
 # code from before and just ask z3 for the value of X
 def solve_b_z3(data):
     x = z3.Real("x")
-    data = data.copy()
-    data["humn"] = x
-    a, _, b = data["root"]
-    data["root"] = a, "=", b
+    a, b = eval_partb(data, x)
 
     solver = z3.Solver()
-    solver.add(eval_expression(data))
+    solver.add(a == b)
     if solver.check():
         return solver.model()[x].as_long()
 
@@ -67,19 +72,28 @@ def solve_b_z3(data):
 # We just need to be careful with using round instead of int do the machine
 # imprecision
 def solve_b_sympy(data):
-    x = Symbol('x', real=True)
-    data = data.copy()
-    data['humn'] = x
-    a, _, b = data['root']
-    data['root'] = a, '-', b
-    eq = eval_expression(data)
-    return round(solve(eq, x)[0])
+    x = Symbol("x", real=True)
+    a, b = eval_partb(data, x)
+    return round(solve(a - b, x)[0])
+
+
+# An extremely ingenious approach I learned from reddit is to abuse the complex
+# dtype to carry the uncertainty in the equation. This does assume that equation
+# is linear, which seems to be the case for the data, but it would fail with
+# higher order terms
+def solve_b_complex(data):
+    a, b = eval_partb(data, 1j)
+    if not isinstance(a, complex):
+        a, b = b, a
+    return int((b - a.real) / a.imag)
 
 
 # And for completeness we can of course do it manually which is likely the puzzle's
 # intended solution. To achieve this, we can first simplify all branches of the tree
 # independent of humn and then work our way down using reciprocal ops to solve for
 # the unknown variable. Quite satisfying to get it working actually
+# Like the complex solution, this assumes the solution to be linear and the graph 
+# to be a tree
 def solve_b_manual(data):
     ops = {
         "+": operator.add,
@@ -166,6 +180,6 @@ if __name__ == "__main__":
     assert solve_a(sample) == 152
     puzzle.answer_a = solve_a(data)
 
-    for solve_b in (solve_b_z3, solve_b_sympy, solve_b_manual):
+    for solve_b in (solve_b_z3, solve_b_sympy, solve_b_complex, solve_b_manual):
         assert solve_b(sample) == 301
         puzzle.answer_b = solve_b(data)
