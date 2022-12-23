@@ -90,6 +90,85 @@ def solve_b(data):
     return math.prod([max_geodes(x, 32) for x in data[:3]])
 
 
+# A very interesting alternative solution is to use a maximization based A* approach to
+# properly rank the current approaches. The idea behind a maximization A* is to use an
+# overestimate (upper bound instead of lower bound) of the remaining steps and use a
+# max-heap instead of a min-heap. This way, we have a large quantity that slowly goes
+# down over time
+from heapq import heappush, heappop
+
+from heapq import heappush, heappop
+
+
+def max_geodes(blueprint, mins):
+    blueprint = blueprint.astype(int).tolist()
+    max_cost = tuple(
+        max(blueprint[j][i] for j in range(4)) for i in range(3)
+    )  # no geode cost
+
+    blueprint = [tuple(row[:-1]) for row in blueprint]  # no geode cost
+
+    upper_geodes = lambda x: (x + 1) * x / 2
+
+    heap = [(-upper_geodes(mins - 1), 0, mins, (1, 0, 0), (0, 0, 0))]
+    visited = set(heap)
+
+    best_geodes = 0
+
+    while heap:
+        _, geodes, remaining, robots, resources = heappop(heap)
+        if remaining == 0:
+            return geodes
+        upper = geodes + upper_geodes(remaining)
+        if upper <= best_geodes:
+            continue
+        best_geodes = max(best_geodes, geodes)
+
+        for robot, cost in enumerate(blueprint):
+            # if we have enough robots skip
+            if robot < 3 and robots[robot] >= max_cost[robot]:
+                continue
+            # if we can't make it
+            if any(req > 0 and rob == 0 for req, rob in zip(cost, robots)):
+                continue
+            missing = tuple(c - r for c, r in zip(cost, resources))
+            wait = 1 + int(
+                max(
+                    (
+                        math.ceil(req / rob)
+                        for req, rob in zip(missing, robots)
+                        if req > 0
+                    ),
+                    default=0,
+                )
+            )
+            # not enough time
+            if wait >= remaining:
+                continue
+            new_resources = tuple(
+                [-now + wait * prod for now, prod in zip(missing, robots)]
+            )
+            if robot < 3:
+                new_robots = tuple([r + (i == robot) for i, r in enumerate(robots)])
+                new_geodes = geodes
+            else:
+                new_robots = robots
+                new_geodes = geodes + remaining - wait
+
+            estimate = new_geodes + upper_geodes(remaining - wait)
+            state = (-estimate, new_geodes, remaining - wait, new_robots, new_resources)
+            if state not in visited:
+                visited.add(state)
+                heappush(heap, state)
+
+        # no-op
+        state = (-geodes, geodes, 0, robots, resources)
+        if state not in visited:
+            heappush(heap, state)
+
+    return best_geodes
+
+
 sample = parses(
     """Blueprint 1: Each ore robot costs 4 ore. Each clay robot costs 2 ore. Each obsidian robot costs 3 ore and 14 clay. Each geode robot costs 2 ore and 7 obsidian.
 Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian."""
