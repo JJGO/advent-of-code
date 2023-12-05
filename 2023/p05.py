@@ -35,7 +35,7 @@ def solve_a(data):
 
 def solve_b(data):
     vals, maps = data
-    vals = [(i, i + n) for i, n in sorted(zip(vals[::2], vals[1::2]))]
+    vals = [(i, i + n) for i, n in zip(vals[::2], vals[1::2])]
     maps = [sorted([(src, src + m, dst) for dst, src, m in map_]) for map_ in maps]
 
     for map_ in maps:
@@ -61,7 +61,7 @@ def solve_b(data):
                     continue
             if e1 - s1 > 0:
                 new_vals.append((s1, e1))
-        vals = sorted(new_vals)
+        vals = new_vals
     return min(vals)[0]
 
 
