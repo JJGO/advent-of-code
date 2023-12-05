@@ -42,17 +42,19 @@ def solve_b(data):
         new_vals = []
         for s1, e1 in vals:
             for s2, e2, dst in map_:
+                if e1 < s2:
+                    break
                 if s2 <= s1 and e1 <= e2:
                     # completely inside
                     new_vals.append((dst + s1 - s2, dst + e1 - s2))
                     s1 = e1
-                    continue
-                elif s2 <= s1 < e2:
+                    break
+                if s2 <= s1 < e2:
                     # partially inside
                     new_vals.append((dst + s1 - s2, dst + e2 - s2))
                     s1 = e2
                     continue
-                elif s1 <= s2 < e1:
+                if s1 <= s2 < e1:
                     # partially outside
                     new_vals.append((s1, s2))
                     s1 = s2
