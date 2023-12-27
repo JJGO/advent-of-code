@@ -74,7 +74,7 @@ def solve_b_z3(data):
 def solve_b_sympy(data):
     x = Symbol("x", real=True)
     a, b = eval_partb(data, x)
-    return round(solve(a - b, x)[0])
+    return int(round(solve(a - b, x)[0]))
 
 
 # An extremely ingenious approach I learned from reddit is to abuse the complex
