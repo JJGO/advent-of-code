@@ -4,7 +4,7 @@ from typing import Sequence
 
 
 def list2num(nums):
-    return sum(2 ** i * n for i, n in enumerate(reversed(nums)))
+    return sum(2**i * n for i, n in enumerate(reversed(nums)))
 
 
 @dataclass
@@ -50,7 +50,7 @@ class Buffer:
         self.bits = [int(h & i > 0) for h in bytes_ for i in [8, 4, 2, 1]]
 
     def read(self, n) -> int:
-        bits = self.bits[self.p:self.p+n]
+        bits = self.bits[self.p : self.p + n]
         self.p += n
         return list2num(bits)
 

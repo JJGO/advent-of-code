@@ -11,7 +11,9 @@ def run_script(file_path: str) -> tuple[str, int]:
 
 def main(folder_path: str, threads: int = typer.Option(None, "-p", "--parallel")):
     folder = Path(folder_path)
-    python_files = sorted([file for file in folder.glob("p*.py") if file.name != 'p00.py'])
+    python_files = sorted(
+        [file for file in folder.glob("p*.py") if file.name != "p00.py"]
+    )
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         for file, return_code in executor.map(run_script, python_files):

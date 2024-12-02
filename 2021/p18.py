@@ -82,7 +82,6 @@ class SN:
                     stack.append((child, pos + (1 - i,)))
 
     def reduce(self):
-
         while True:
             if pos := self.find_explode():
                 pair = (self[pos].left, self[pos].right)

@@ -128,17 +128,20 @@ def solve_b_math(data):
     inside = area - len(boundary) / 2 + 1
     return int(inside)
 
+
 def solve_b_flip(data):
     # Graphics approach, start with outside and flip every time we see a vertical boundary
     # we need to pick either the bottom or top corners to count things correctly
     total = 0
     N, M = len(data), len(data[0])
-    boundary = {(int(z.real), int(z.imag)): val for z, val in find_boundary(data).items()}
+    boundary = {
+        (int(z.real), int(z.imag)): val for z, val in find_boundary(data).items()
+    }
     for i in range(N):
         inside = False
         for j in range(M):
-            total += ((i,j) not in boundary) and inside
-            inside ^= boundary.get((i,j), ' ') in ('│┘└')
+            total += ((i, j) not in boundary) and inside
+            inside ^= boundary.get((i, j), " ") in ("│┘└")
     return total
 
 

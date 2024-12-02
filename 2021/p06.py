@@ -8,7 +8,7 @@ def parses(input):
 
 def simulate(data, days):
     counts = Counter(data)
-    population = deque([counts.get(i,0) for i in range(9)])
+    population = deque([counts.get(i, 0) for i in range(9)])
     for i in range(days):
         population.rotate(-1)
         population[6] += population[-1]

@@ -50,8 +50,8 @@ if __name__ == "__main__":
     puzzle = Puzzle(year=2017, day=24)
     data = parses(puzzle.input_data)
 
-    assert solve(sample, 'a') == 31
-    puzzle.answer_a = solve(data, 'a')
+    assert solve(sample, "a") == 31
+    puzzle.answer_a = solve(data, "a")
 
-    assert solve(sample, 'b') == 19
-    puzzle.answer_b = solve(data, 'b')
+    assert solve(sample, "b") == 19
+    puzzle.answer_b = solve(data, "b")

@@ -4,11 +4,13 @@ from scipy.spatial.distance import cdist
 
 
 def parses(data):
-    return np.array([[int(i) for i in line.split(',')] for line in data.strip().split('\n')])
+    return np.array(
+        [[int(i) for i in line.split(",")] for line in data.strip().split("\n")]
+    )
 
 
 def constellations(stars):
-    distances = cdist(stars, stars, metric='cityblock')
+    distances = cdist(stars, stars, metric="cityblock")
     graph = defaultdict(list)
     for i, j in np.argwhere(distances <= 3):
         if i != j:
@@ -30,7 +32,9 @@ def constellations(stars):
 
 
 samples = [
-(parses(""" 0,0,0,0
+    (
+        parses(
+            """ 0,0,0,0
 3,0,0,0
 0,3,0,0
 0,0,3,0
@@ -38,8 +42,13 @@ samples = [
 0,0,0,6
 9,0,0,0
 12,0,0,0
-"""),2),
-(parses(""" 0,0,0,0
+"""
+        ),
+        2,
+    ),
+    (
+        parses(
+            """ 0,0,0,0
 3,0,0,0
 0,3,0,0
 0,0,3,0
@@ -48,8 +57,13 @@ samples = [
 6,0,0,0
 9,0,0,0
 12,0,0,0
-"""),1),
-(parses("""-1,2,2,0
+"""
+        ),
+        1,
+    ),
+    (
+        parses(
+            """-1,2,2,0
 0,0,2,-2
 0,0,0,-2
 -1,2,0,0
@@ -58,8 +72,13 @@ samples = [
 -1,3,2,2
 -1,0,-1,0
 0,2,1,-2
-3,0,0,0"""), 4),
-(parses("""1,-1,0,1
+3,0,0,0"""
+        ),
+        4,
+    ),
+    (
+        parses(
+            """1,-1,0,1
 2,0,-1,0
 3,2,-1,0
 0,0,3,1
@@ -68,8 +87,13 @@ samples = [
 -2,2,0,0
 2,-2,0,-1
 1,-1,0,-1
-3,2,0,2"""), 3),
-(parses("""1,-1,-1,-2
+3,2,0,2"""
+        ),
+        3,
+    ),
+    (
+        parses(
+            """1,-1,-1,-2
 -2,-2,0,1
 0,2,1,3
 -2,3,-2,1
@@ -78,7 +102,10 @@ samples = [
 0,-2,-1,0
 -2,2,3,-1
 1,2,2,0
--1,-2,0,-2"""), 8),
+-1,-2,0,-2"""
+        ),
+        8,
+    ),
 ]
 
 

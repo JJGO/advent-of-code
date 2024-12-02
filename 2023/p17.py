@@ -37,7 +37,14 @@ def best_path(data, least, most):
             new_cost = cost + map_[new_pos]
             new_bound = new_cost + abs(N - 1 - new_pos.real) + abs(M - 1 - new_pos.imag)
             new_momentum = momentum + 1 if delta == new_delta else 1
-            new_state = ( new_bound, new_cost, (k := k + 1), new_pos, new_delta, new_momentum,)
+            new_state = (
+                new_bound,
+                new_cost,
+                (k := k + 1),
+                new_pos,
+                new_delta,
+                new_momentum,
+            )
 
             if (new_pos, new_delta) not in visited:
                 heappush(heap, new_state)

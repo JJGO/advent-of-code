@@ -35,9 +35,10 @@ def build_graph(regex):
             current_pos = end_stack.pop()
     return graph
 
+
 def dijkstra(graph):
     distances = {}
-    heap = [(0, Point(0,0))]
+    heap = [(0, Point(0, 0))]
     while heap:
         d, pos = heappop(heap)
         if pos in distances:
@@ -45,20 +46,23 @@ def dijkstra(graph):
         distances[pos] = d
         for neighbor in graph[pos]:
             if neighbor not in distances:
-                heappush(heap, (d+1, neighbor))
+                heappush(heap, (d + 1, neighbor))
     return distances
+
 
 def solve_a(data):
     distances = dijkstra(build_graph(data))
     return max(distances.values())
 
+
 def solve_b(data):
     distances = dijkstra(build_graph(data))
     return sum(1 for v in distances.values() if v >= 1000)
 
+
 samples_a = [
-    ('^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$', 23),
-    ('^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$', 31),
+    ("^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$", 23),
+    ("^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$", 31),
 ]
 
 

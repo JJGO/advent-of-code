@@ -28,10 +28,10 @@ def search(cave):
     while True:
         risk, (x, y) = heappop(heap)
         if (x, y) not in visited:
-            if (x, y) == (N-1, M-1):
+            if (x, y) == (N - 1, M - 1):
                 return risk
             visited.add((x, y))
-            for x2, y2 in [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]:
+            for x2, y2 in [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]:
                 if 0 <= x2 < N and 0 <= y2 < M and (x2, y2) not in visited:
                     heappush(heap, (risk + cave[x2, y2], (x2, y2)))
 

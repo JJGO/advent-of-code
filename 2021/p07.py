@@ -51,7 +51,6 @@ if __name__ == "__main__":
     data = parses(puzzle.input_data)
 
     for fnA, fnB in [(partA, partB), (bruteA, bruteB)]:
-
         assert fnA(sample) == 37
         puzzle.answer_a = fnA(data)
 

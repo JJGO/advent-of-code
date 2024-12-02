@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Tuple
 import itertools
 
 
@@ -12,7 +12,6 @@ def parses(input):
 # We can either operate in this system or convert to
 # decimal and back
 class IntB5:
-
     VALUES = dict(zip("=-012", (-2, -1, 0, 1, 2)))
     CHARS = dict(zip((-2, -1, 0, 1, 2), "=-012"))
 

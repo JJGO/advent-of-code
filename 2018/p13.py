@@ -106,17 +106,13 @@ sampleB = parses(
 
 
 if __name__ == "__main__":
-
     from aocd.models import Puzzle
 
     puzzle = Puzzle(year=2018, day=13)
     data = parses(puzzle.input_data)
 
-    assert first_collision(sampleA) == '7,3'
+    assert first_collision(sampleA) == "7,3"
     puzzle.answer_a = first_collision(data)
 
-    assert all_collisions(sampleB) == '6,4'
+    assert all_collisions(sampleB) == "6,4"
     puzzle.answer_b = all_collisions(data)
-
-
-

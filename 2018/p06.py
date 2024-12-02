@@ -1,7 +1,6 @@
-from collections import Counter
 import numpy as np
 from scipy.spatial import distance
-from scipy.spatial import ConvexHull, convex_hull_plot_2d
+from scipy.spatial import ConvexHull
 
 
 def parses(input):

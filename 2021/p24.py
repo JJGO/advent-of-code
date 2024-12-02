@@ -55,10 +55,10 @@ def solve_reveng(program, part):
 # it is satisfiable we will eventually determine all digits
 # The .push and .pop allow us to reuse part of the solver state
 
+
 # Solution by symbolic execution
 def solve_symexec(program, part):
-
-    from z3 import Int, If, Sum, Solver, simplify, BitVec, BitVecVal
+    from z3 import If, Solver, simplify, BitVec, BitVecVal
     import operator
 
     zero = BitVecVal(0, 64)

@@ -1,5 +1,6 @@
 def parses(input):
-    return input.strip().split('\n')
+    return input.strip().split("\n")
+
 
 def points(char):
     return 1 + ord(char.lower()) - ord("a") + 26 * char.isupper()

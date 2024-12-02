@@ -68,7 +68,6 @@ sample = parses(
 
 
 if __name__ == "__main__":
-
     from aocd.models import Puzzle
 
     puzzle = Puzzle(year=2018, day=12)

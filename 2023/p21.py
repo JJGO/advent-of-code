@@ -52,7 +52,7 @@ def simulate_finite(data):
                 x, y = int(new_pos.real), int(new_pos.imag)
                 if x < 0 or x >= N or y < 0 or y >= M:
                     continue
-                if (x+1j*y) not in rocks:
+                if (x + 1j * y) not in rocks:
                     new_positions.add(new_pos)
 
         positions = new_positions

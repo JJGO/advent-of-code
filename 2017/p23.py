@@ -68,8 +68,8 @@ def solve_b(program):
         ip += 1
     start, end = regs["b"], regs["c"]
     q = -int(program[30][-1])
-    N = len(range(start, end+1, q))
-    n_primes = sum(1 for p in primerange(start, end+1) if (p-start) % 17 == 0)
+    N = len(range(start, end + 1, q))
+    n_primes = sum(1 for p in primerange(start, end + 1) if (p - start) % 17 == 0)
     return N - n_primes
 
 

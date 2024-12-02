@@ -29,7 +29,7 @@ def righthand_rotations():
 
 def valid_overlap(known, candidate):
     # known is absolute coordinates, candidate is relative/distances
-    for (perm, sign) in righthand_rotations():
+    for perm, sign in righthand_rotations():
         rot_candidate = candidate[:, perm] * sign
         # known = candidate + loc_candidate, so by substracting we get a 2d array of vectors
         # containing the location of candidate if the i^th beacon matched the j^th distance
@@ -44,17 +44,18 @@ def valid_overlap(known, candidate):
 
 
 def find_absolute_positions(scanners):
-
-    locations = {0: np.array([0,0,0])}
+    locations = {0: np.array([0, 0, 0])}
     absolute = {0: scanners[0]}
-    unsolved = set(range(1,len(scanners)))
+    unsolved = set(range(1, len(scanners)))
     tested = set()
 
     while len(unsolved) > 0:
         for known, candidate in itertools.product(absolute, unsolved):
             if (known, candidate) not in tested:
                 tested.add((known, candidate))
-                if (sol := valid_overlap(absolute[known], scanners[candidate])) is not None:
+                if (
+                    sol := valid_overlap(absolute[known], scanners[candidate])
+                ) is not None:
                     locations[candidate], absolute[candidate] = sol
                     unsolved.remove(candidate)
                     break
@@ -68,7 +69,9 @@ def solve_a(scanners):
 
 def solve_b(scanners):
     locations, _ = find_absolute_positions(scanners)
-    return max(abs(i - j).sum() for i, j in itertools.combinations(locations.values(), 2))
+    return max(
+        abs(i - j).sum() for i, j in itertools.combinations(locations.values(), 2)
+    )
 
 
 sample = parses(

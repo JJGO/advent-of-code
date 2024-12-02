@@ -38,7 +38,8 @@ def solve_b(data):
     return solve_a(data)
 
 
-sample = parses("""R 6 (#70c710)
+sample = parses(
+    """R 6 (#70c710)
 D 5 (#0dc571)
 L 2 (#5713f0)
 D 2 (#d2c081)
@@ -51,7 +52,8 @@ U 2 (#caa171)
 R 2 (#7807d2)
 U 3 (#a77fa3)
 L 2 (#015232)
-U 2 (#7a21e3)""")
+U 2 (#7a21e3)"""
+)
 
 
 if __name__ == "__main__":

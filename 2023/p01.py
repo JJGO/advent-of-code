@@ -1,33 +1,53 @@
 import re
 
+
 def parses(input):
-    return input.strip().split('\n')
+    return input.strip().split("\n")
+
 
 def solve_a(data):
-    lines = [re.findall('\d', line) for line in data]
-    return sum((int(l[0]+l[-1]) for l in lines))
+    lines = [re.findall("\d", line) for line in data]
+    return sum((int(l[0] + l[-1]) for l in lines))
+
 
 def solve_b(data):
     def normalize(line):
-        nums = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+        nums = [
+            "zero",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+        ]
         for i, n in enumerate(nums):
-            line = line.replace(n, f'{n}{i:d}{n}')
+            line = line.replace(n, f"{n}{i:d}{n}")
         return line
-    lines = [re.findall('\d', normalize(line)) for line in data]
-    return sum((int(l[0]+l[-1]) for l in lines))
 
-sample_a = parses("""1abc2
+    lines = [re.findall("\d", normalize(line)) for line in data]
+    return sum((int(l[0] + l[-1]) for l in lines))
+
+
+sample_a = parses(
+    """1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
-treb7uchet""")
+treb7uchet"""
+)
 
-sample_b = parses("""two1nine
+sample_b = parses(
+    """two1nine
 eightwothree
 abcone2threexyz
 xtwone3four
 4nineeightseven2
 zoneight234
-7pqrstsixteen""")
+7pqrstsixteen"""
+)
 
 
 if __name__ == "__main__":

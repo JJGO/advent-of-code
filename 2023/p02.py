@@ -1,6 +1,5 @@
 import math
 import operator
-import re
 from collections import Counter
 from functools import reduce
 

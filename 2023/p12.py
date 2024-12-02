@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+
 def parses(input):
     rows = []
     for line in input.strip().split("\n"):
@@ -47,8 +48,7 @@ def solve_a(data):
 
 
 def solve_b(data):
-    data = [
-        ( '?'.join(c for _ in range(5)), g*5) for c, g in data]
+    data = [("?".join(c for _ in range(5)), g * 5) for c, g in data]
     return solve_a(data)
 
 

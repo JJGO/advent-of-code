@@ -25,7 +25,6 @@ def fastsolve_b(data):
     # Deduction from the digits placement
     total = 0
     for left, right in data:
-
         left = [set(v) for v in left]
         nums = {}
 
@@ -128,7 +127,6 @@ if __name__ == "__main__":
         bycounts_b,
         bruteforce_b,
     ]:
-
         assert solve_b(sample1) == 5353
         assert solve_b(sample2) == 61229
         puzzle.answer_b = solve_b(data)

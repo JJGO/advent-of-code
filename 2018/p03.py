@@ -12,16 +12,16 @@ def parses(input):
 def overlaps(claims):
     fabric = np.zeros((1000, 1000))
     for i, j, x, y in claims:
-        fabric[i:i+x, j:j+y] += 1
+        fabric[i : i + x, j : j + y] += 1
     return (fabric > 1).sum()
 
 
 def no_overlap(claims):
     fabric = np.zeros((1000, 1000))
     for i, j, x, y in claims:
-        fabric[i:i+x, j:j+y] += 1
+        fabric[i : i + x, j : j + y] += 1
     for k, (i, j, x, y) in enumerate(claims):
-        if (fabric[i:i+x, j:j+y] > 1).sum() == 0:
+        if (fabric[i : i + x, j : j + y] > 1).sum() == 0:
             return k + 1
 
 

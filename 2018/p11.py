@@ -1,5 +1,6 @@
 import numpy as np
 
+
 # Use a summed area table (dp)
 def power(serial, part="a"):
     serial = int(serial)
@@ -41,10 +42,10 @@ if __name__ == "__main__":
     puzzle = Puzzle(year=2018, day=11)
     data = int(puzzle.input_data)
 
-    assert power(18, 'a') == '33,45'
-    assert power(42, 'a') == '21,61'
-    puzzle.answer_a = power(data, 'a')
+    assert power(18, "a") == "33,45"
+    assert power(42, "a") == "21,61"
+    puzzle.answer_a = power(data, "a")
 
-    assert power(18, 'b') == '90,269,16'
-    assert power(42, 'b') == '232,251,12'
-    puzzle.answer_b = power(data, 'b')
+    assert power(18, "b") == "90,269,16"
+    assert power(42, "b") == "232,251,12"
+    puzzle.answer_b = power(data, "b")

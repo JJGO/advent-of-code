@@ -2,10 +2,12 @@ from itertools import accumulate, cycle
 
 
 def parses(input):
-    return [int(x) for x in input.strip().split('\n')]
+    return [int(x) for x in input.strip().split("\n")]
+
 
 def partA(vals):
     return sum(vals)
+
 
 def partB(vals):
     seen = set([0])

@@ -48,6 +48,7 @@ def solve_b_cmp(data):
 
 def solve_b_cls(data):
     data = [val for pair in data for val in pair] + [[[2]], [[6]]]
+
     # Another alternative is to create a custom class that
     # only defines __lt__ using compare(self, other) == -1
     class Key:

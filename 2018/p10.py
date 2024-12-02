@@ -71,7 +71,6 @@ position=<-3,  6> velocity=< 2, -1>"""
 )
 
 if __name__ == "__main__":
-
     from aocd.models import Puzzle
 
     puzzle = Puzzle(year=2018, day=10)

@@ -33,6 +33,7 @@ def valid_velocities(bounds):
                 yield (init, local_maxy)
                 break
 
+
 # There's a heuristic of assuming that the process ends with
 # vx = 0 and vy = bottom, so initial_vy = -bottom and
 # max_height = (bottom)*(bottom+1)/2 due to the triangular sum

@@ -21,14 +21,13 @@ def solve(time, record):
     #   -x**2 + Tx - R-1 >= 0
     #   x**2 - Tx + R+1 >= 0
     a, b, c = 1, -time, record + 1
-    p, q = -b / (2 * a), (b ** 2 - 4 * a * c) ** 0.5 / (2 * a)
+    p, q = -b / (2 * a), (b**2 - 4 * a * c) ** 0.5 / (2 * a)
     x1, x2 = math.floor(p + q), math.ceil(p - q)
     return x1 - x2 + 1
 
 
 def solve_a(data):
-    return math.prod((solve(int(time), int(record))
-                      for time, record in zip(*data)))
+    return math.prod((solve(int(time), int(record)) for time, record in zip(*data)))
 
 
 def solve_b(data):

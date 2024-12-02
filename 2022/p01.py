@@ -8,8 +8,10 @@ def parses(text):
 def max_calories(calories: List[List[int]]):
     return max(*map(sum, calories))
 
+
 def top3_calories(calories: List[List[int]]):
     return sum(sorted(map(sum, calories))[-3:])
+
 
 sample = parses(
     """1000

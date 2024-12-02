@@ -11,7 +11,7 @@ def solve_a(heights):
     for i in range(N):
         for j in range(M):
             h = heights[i][j]
-            for i2, j2 in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+            for i2, j2 in [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]:
                 if 0 <= i2 < N and 0 <= j2 < M:
                     if heights[i2][j2] <= h:
                         break
@@ -39,7 +39,7 @@ def solve_b(heights):
                 while stack:
                     x, y = stack.pop()
                     basins[-1] += 1
-                    for x2, y2 in [(x+1, y), (x-1, y), (x, y+1), (x, y-1)]:
+                    for x2, y2 in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
                         if 0 <= x2 < N and 0 <= y2 < M:
                             if heights[x2][y2] != 9 and (x2, y2) not in visited:
                                 visited.add((x2, y2))

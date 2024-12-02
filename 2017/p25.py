@@ -3,7 +3,6 @@ from collections import defaultdict
 
 
 def parses(text):
-
     initial = parse.search("Begin in state {}.", text).fixed[0]
     steps = parse.search("Perform a diagnostic checksum after {:d} steps.", text).fixed[
         0

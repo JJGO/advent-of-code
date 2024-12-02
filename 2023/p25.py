@@ -115,6 +115,7 @@ def solve_random_paths(data):
         components.append(size)
     return math.prod(components)
 
+
 def solve_grow_frontier(data):
     graph = build_undir_graph(data)
     node = next(iter(graph))
@@ -134,7 +135,8 @@ def solve_grow_frontier(data):
 
     n = len(visited)
     N = len(graph)
-    return n * (N-n)
+    return n * (N - n)
+
 
 # TODO Karger's algo
 

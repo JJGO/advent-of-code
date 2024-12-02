@@ -1,15 +1,11 @@
 def captcha(s):
     s += s[0]
-    return sum(
-        int(s[i]) for i in range(len(s) - 1) if s[i] == s[i+1]
-    )
+    return sum(int(s[i]) for i in range(len(s) - 1) if s[i] == s[i + 1])
 
 
 def captchaB(s):
     N = len(s)
-    return sum(
-        int(s[i]) for i in range(N) if s[i] == s[(i + N//2) % N]
-    )
+    return sum(int(s[i]) for i in range(N) if s[i] == s[(i + N // 2) % N])
 
 
 samplesA = [

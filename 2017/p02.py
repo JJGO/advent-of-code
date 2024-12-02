@@ -10,7 +10,7 @@ def divisible(sheet):
     def _divisible(line):
         line = sorted(line)
         for i, n in enumerate(line):
-            for m in line[i+1:]:
+            for m in line[i + 1 :]:
                 d, r = divmod(m, n)
                 if r == 0:
                     return d

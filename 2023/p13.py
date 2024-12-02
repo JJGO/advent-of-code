@@ -16,7 +16,7 @@ def symmetries(data, smudge):
         for matrix, offset in [(pattern, 100), (pattern.T, 1)]:
             N = matrix.shape[0]
             for i in range(1, N):
-                k = min(i, N-i)
+                k = min(i, N - i)
                 A = matrix[i - k : i]
                 B = matrix[i : i + k][::-1]
                 if abs(A - B).sum() == smudge:

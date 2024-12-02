@@ -94,7 +94,7 @@ def combat(data, immune_boost=0):
 
         # Combat
         for grp in sorted(infection + immune, reverse=True, key=Group.attack_order):
-            if (target := targeting.get(grp, None)) :
+            if target := targeting.get(grp, None):
                 grp.deal_damage(target)
 
         # Remove dead units

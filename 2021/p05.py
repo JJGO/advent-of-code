@@ -41,19 +41,22 @@ def overlap_np(points, part="a"):
     points -= np.array([[xmin, ymin, xmin, ymin]])
     for x1, y1, x2, y2 in points:
         if (x1 == x2 or y1 == y2) or part == "b":
-            xs = np.arange(x1, x2+1) if x1 <= x2 else np.arange(x1, x2-1, -1)
-            ys = np.arange(y1, y2+1) if y1 <= y2 else np.arange(y1, y2-1, -1)
+            xs = np.arange(x1, x2 + 1) if x1 <= x2 else np.arange(x1, x2 - 1, -1)
+            ys = np.arange(y1, y2 + 1) if y1 <= y2 else np.arange(y1, y2 - 1, -1)
             board[xs, ys] += 1
     return (board > 1).sum()
 
 
 # Numpy counts variant
-def overlap_npc(points, part='a'):
+def overlap_npc(points, part="a"):
     points = np.array(points).reshape((len(points), 2, 2))
-    allpoints = np.vstack([
-        p[0] + np.outer(np.arange(1+p.ptp(0).max()), np.sign(p[1]-p[0]))
-        for p in points if p.ptp(0).min() == 0 or part == 'b'
-    ])
+    allpoints = np.vstack(
+        [
+            p[0] + np.outer(np.arange(1 + p.ptp(0).max()), np.sign(p[1] - p[0]))
+            for p in points
+            if p.ptp(0).min() == 0 or part == "b"
+        ]
+    )
     _, counts = np.unique(allpoints, axis=0, return_counts=True)
     return (counts > 1).sum()
 

@@ -20,7 +20,7 @@ def solve(data, direction):
     stacks, moves = data
     stacks = [s.copy() for s in stacks]
     for n, src, dst in moves:
-        src, dst = src-1, dst-1
+        src, dst = src - 1, dst - 1
         stacks[src], tail = stacks[src][:-n], stacks[src][-n:][::direction]
         stacks[dst].extend(tail)
     return "".join([s[-1] for s in stacks])
@@ -28,6 +28,7 @@ def solve(data, direction):
 
 def solve_a(data):
     return solve(data, direction=-1)
+
 
 def solve_b(data):
     return solve(data, direction=1)

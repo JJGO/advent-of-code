@@ -1,6 +1,3 @@
-import parse
-
-
 def parses(input):
     return [tuple(line.split()) for line in input.strip().split("\n")]
 

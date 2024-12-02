@@ -27,7 +27,6 @@ def solve_a(board):
 
 
 def solve_b(board):
-
     gears = {
         (i, j): []
         for i, row in enumerate(board)

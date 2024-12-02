@@ -33,11 +33,13 @@ def solve_b(data):
     return sum(i * int(bid) for i, (*_, bid) in enumerate(vals, start=1))
 
 
-sample = parses("""32T3K 765
+sample = parses(
+    """32T3K 765
 T55J5 684
 KK677 28
 KTJJT 220
-QQQJA 483""")
+QQQJA 483"""
+)
 
 
 if __name__ == "__main__":

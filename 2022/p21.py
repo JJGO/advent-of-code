@@ -92,7 +92,7 @@ def solve_b_complex(data):
 # intended solution. To achieve this, we can first simplify all branches of the tree
 # independent of humn and then work our way down using reciprocal ops to solve for
 # the unknown variable. Quite satisfying to get it working actually
-# Like the complex solution, this assumes the solution to be linear and the graph 
+# Like the complex solution, this assumes the solution to be linear and the graph
 # to be a tree
 def solve_b_manual(data):
     ops = {

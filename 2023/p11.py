@@ -68,5 +68,3 @@ if __name__ == "__main__":
     assert compute_distance(sample, 100) == 8410
     assert compute_distance(sample, 1000000) == 82000210
     puzzle.answer_b = compute_distance(data, 1000000)
-
-
