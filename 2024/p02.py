@@ -21,12 +21,14 @@ def solve_b(data):
     return sum(is_almost_safe(line) for line in data)
 
 
-sample = parses("""7 6 4 2 1
+sample = parses(
+    """7 6 4 2 1
 1 2 7 8 9
 9 7 6 2 1
 1 3 2 4 5
 8 6 4 4 1
-1 3 6 7 9""")
+1 3 6 7 9"""
+)
 
 
 if __name__ == "__main__":

@@ -10,9 +10,7 @@ def solve_b(data):
     pass
 
 
-sample = parses(
-        """"""
-)
+sample = parses("""""")
 
 
 if __name__ == "__main__":

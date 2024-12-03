@@ -22,12 +22,14 @@ def solve_b(data):
     return sum(a * Cb[a] for a in A)
 
 
-sample = parses("""3   4
+sample = parses(
+    """3   4
 4   3
 2   5
 1   3
 3   9
-3   3""")
+3   3"""
+)
 
 
 if __name__ == "__main__":
