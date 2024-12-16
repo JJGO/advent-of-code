@@ -66,6 +66,9 @@ def solve(data, part):
 
         while heap:
             cost, pos, t = heappop(heap)
+            if (pos, t) in visited:
+                continue
+            visited.add((pos, t))
 
             for d in directions:
                 next_pos = add(pos, d)
@@ -79,8 +82,7 @@ def solve(data, part):
                 if empty_row and empty_col:
                     new_cost = t + 1 + manhattan(next_pos, end)
                     new_state = (new_cost, next_pos, t + 1)
-                    if new_state not in visited:
-                        visited.add(new_state)
+                    if (next_pos, t + 1) not in visited:
                         heappush(heap, new_state)
 
     t1 = fastest(start, end, 0)

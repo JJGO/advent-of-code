@@ -1,4 +1,4 @@
-def parses(input):
+def parses(data):
     return data
 
 

@@ -97,8 +97,6 @@ def solve_b(data):
 # down over time
 from heapq import heappush, heappop
 
-from heapq import heappush, heappop
-
 
 def max_geodes(blueprint, mins):
     blueprint = blueprint.astype(int).tolist()
