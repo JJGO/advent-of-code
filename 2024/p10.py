@@ -16,20 +16,18 @@ def find_trails(start, board, unique):
         i, j, n = stack.pop()
         for di, dj in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             i2, j2 = i + di, j + dj
-            if (i2, j2) in board and board[i2, j2] == n+1:
+            if (i2, j2) in board and board[i2, j2] == n + 1:
                 if n == 8:
                     trails += (not unique) or ((i2, j2) not in nines)
                     nines.add((i2, j2))
                 else:
-                    stack.append((i2, j2, n+1))
+                    stack.append((i2, j2, n + 1))
     return trails
 
 
 def count_trails(board, unique):
     return sum(
-        find_trails(start, board, unique)
-        for start in board
-        if board[start] == 0
+        find_trails(start, board, unique) for start in board if board[start] == 0
     )
 
 
@@ -41,14 +39,16 @@ def solve_b(data):
     return count_trails(data, unique=False)
 
 
-sample = parses("""89010123
+sample = parses(
+    """89010123
 78121874
 87430965
 96549874
 45678903
 32019012
 01329801
-10456732""")
+10456732"""
+)
 
 
 if __name__ == "__main__":

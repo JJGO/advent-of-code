@@ -102,7 +102,6 @@ def solve_b(data):
     return gps(boxes)
 
 
-
 sample = parses(
     """##########
 #..O..O.O#

@@ -12,7 +12,6 @@ concat = lambda x, y: int(str(x) + str(y))
 
 
 def solve(data, ops):
-
     def is_feasible(total, nums):
         valid = set([nums[0]])
         for num in nums[1:]:
@@ -32,7 +31,7 @@ def solve_b(data):
 
 
 def solve_fast(data, part_b=False):
-    # Faster solution that works backwards from the total, pruning 
+    # Faster solution that works backwards from the total, pruning
     # concatenation and multiplication paths that are not feasible
     # If last operation is multiplication, then total must be divisible by last number
     # If last operation is concatenation, then last number must be a strict suffix of total
@@ -47,8 +46,10 @@ def solve_fast(data, part_b=False):
         last_s = str(last)
         total_s = str(total)
         # If last concatenation is not correct, prune path
-        if part_b and total_s[1:].endswith(last_s) and is_possible(
-            int(total_s[: -len(last_s)]), prefix
+        if (
+            part_b
+            and total_s[1:].endswith(last_s)
+            and is_possible(int(total_s[: -len(last_s)]), prefix)
         ):
             return True
 
@@ -64,11 +65,14 @@ def solve_fast(data, part_b=False):
 
     return sum(total for total, nums in data if is_possible(total, nums))
 
+
 def solve_a(data):
     return solve_fast(data, part_b=False)
 
+
 def solve_b(data):
     return solve_fast(data, part_b=True)
+
 
 sample = parses(
     """190: 10 19

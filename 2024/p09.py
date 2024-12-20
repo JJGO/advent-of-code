@@ -50,7 +50,7 @@ def solve_b(data):
         else:
             files[fileid] = (last, size)
         last += size
-    holes = holes[::-1] # reverse for more efficient popping
+    holes = holes[::-1]  # reverse for more efficient popping
 
     fileid = max(files)
     # Attempt to move each file once, keep stack of leftmost free space

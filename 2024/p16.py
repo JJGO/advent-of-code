@@ -163,7 +163,6 @@ import networkx as nx
 
 
 def build_graph(lines):
-
     G = nx.DiGraph()
     N, M = len(lines), len(lines[0])
     start, end = None, None

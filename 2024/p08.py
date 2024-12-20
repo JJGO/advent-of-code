@@ -17,7 +17,7 @@ def parses(data):
 def antinodes_a(locations, N, M):
     alocs = set()
     for a, b in itertools.combinations(locations, 2):
-        locs = [a + (a-b), b - (a-b)]
+        locs = [a + (a - b), b - (a - b)]
         locs = [z for z in locs if (0 <= z.real < N) and (0 <= z.imag < M)]
         alocs |= set(locs)
     return alocs
@@ -50,7 +50,8 @@ def solve_b(data):
     return solve(data, antinodes_b)
 
 
-sample = parses("""............
+sample = parses(
+    """............
 ........0...
 .....0......
 .......0....
@@ -61,7 +62,8 @@ sample = parses("""............
 ........A...
 .........A..
 ............
-............""")
+............"""
+)
 
 
 if __name__ == "__main__":
