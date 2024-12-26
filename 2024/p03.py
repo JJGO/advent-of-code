@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     puzzle = Puzzle(year=2024, day=3)
     data = parses(puzzle.input_data)
-    assert solve_a(sample_a) == 168
+    assert solve_a(sample_a) == 161
     puzzle.answer_a = solve_a(data)
     assert solve_b(sample_b) == 48
     puzzle.answer_b = solve_b(data)
